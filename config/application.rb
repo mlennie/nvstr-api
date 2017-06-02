@@ -21,6 +21,18 @@ module Nvstr
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
+    config.middleware.insert_before 0, "Rack::Cors", debug: true, logger: (-> { Rails.logger }) do
+      allow do
+        origins "http://172.17.0.3:4400"
+
+        resource '*',
+          headers: :any,
+          methods: [:get, :post, :patch, :delete, :put, :options, :head],
+          credentials: true,
+          max_age: 0
+      end
+    end
+
     config.autoload_paths << Rails.root.join('app/models/utils')
   end
 end

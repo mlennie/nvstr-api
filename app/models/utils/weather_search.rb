@@ -9,7 +9,7 @@ class WeatherSearch
     current = results["main"]["temp"]
     city[:current] = current
     city[:external_id] = results["id"]
-    city[:in_range] = current >= city[:min] && current <= city[:max]
+    city[:in_range] = current >= city[:min].to_f && current <= city[:max].to_f
     return city
   end
 
@@ -34,14 +34,15 @@ class WeatherSearch
 
   end
 
-  def self.search_single_city city
+  def self.search_city city
     city_name =  city[:name].to_s.strip.downcase.gsub(/\s/, '+')
     url = "#{BASE_URL}weather?q=#{city_name}#{APP_ID}"
     self.make_request url, city, "single"
   end
 
-  def self.search_multiple_cities cities
-    ids = cities.map{|c| c[:external_id]}.join(",")
+  def self.search_cities cities
+    binding.pry
+    ids = cities.map{|c| c["external_id"]}.join(",")
     url = "#{BASE_URL}group?id=#{ids}#{APP_ID}"
     self.make_request url, cities
   end
@@ -49,7 +50,7 @@ class WeatherSearch
   def self.mock_single
     city = { name: "Los Angeles", min: 70, max: 300, current: "",
             in_range: false, external_id: 5368361 }
-    results = search_single_city city
+    results = self.search_city city
     binding.pry
 
   end
@@ -58,7 +59,7 @@ class WeatherSearch
             in_range: false, external_id: 5368361 }
     city_two = { name: "Vancouver", min: 70, max: 300, current: "",
             in_range: false, external_id: 6173331 }
-    results = search_multiple_cities [city_one, city_two]
+    results = self.search_cities [city_one, city_two]
     binding.pry
 
   end

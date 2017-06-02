@@ -33,6 +33,8 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 
 gem 'httparty'
+gem 'rack-cors'
+
 
 group :development, :test do
   gem 'sqlite3'
