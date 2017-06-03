@@ -7,9 +7,9 @@ class WeatherSearch
 
   def self.update_city city, results
     current = results["main"]["temp"]
-    city[:current] = current
-    city[:external_id] = results["id"]
-    city[:in_range] = current >= city[:min].to_f && current <= city[:max].to_f
+    city["current"] = current
+    city["external_id"] = results["id"]
+    city["in_range"] = current >= city["min"].to_f && current <= city["max"].to_f
     return city
   end
 
@@ -41,7 +41,6 @@ class WeatherSearch
   end
 
   def self.search_cities cities
-    binding.pry
     ids = cities.map{|c| c["external_id"]}.join(",")
     url = "#{BASE_URL}group?id=#{ids}#{APP_ID}"
     self.make_request url, cities
