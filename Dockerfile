@@ -8,7 +8,8 @@ RUN update-alternatives --install /usr/bin/node node /usr/bin/nodejs 10
 
 RUN gem install rails
 
-COPY . .
+COPY . ./nvstr
+WORKDIR /nvstr
 
 RUN bundle install
 
