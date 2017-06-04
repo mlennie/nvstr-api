@@ -1,5 +1,26 @@
 module WeatherSearchHelpers
 
+  def call_update_city in_range=true
+    temp = in_range ? 33 : 55
+    city = {"min" => 22,"max" => 44}
+    search_results = {"main" => {"temp" => temp}, "id" => 123}
+    expected_results = {"min" => 22,"max" => 44, "current" => temp,
+                        "external_id" => 123, "in_range" => in_range}
+    results = WeatherSearch.update_city city, search_results
+    expect(results).to eq(expected_results)
+  end
+  def update_city_returns_city
+    call_update_city
+  end
+  def update_city_is_in_range
+    call_update_city true
+  end
+  def update_city_is_not_in_range
+    call_update_city false
+  end
+
+
+=begin
   def setup_get error=false
     url = "/pricing/records.json"
 
@@ -44,5 +65,6 @@ module WeatherSearchHelpers
     expect(ProductSearch.parse_price nil).to be_nil
   end
 
+=end
 end
 

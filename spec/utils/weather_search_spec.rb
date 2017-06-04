@@ -3,8 +3,15 @@ require 'rails_helper'
 RSpec.describe WeatherSearch, type: :model do
 
   describe "update_city" do
-    it "returns city with correct data"
-    it "raises exception with correct message when error"
+    it "returns city with correct data" do
+      update_city_returns_city
+    end
+    it "calculates in_range as true when should" do
+      update_city_is_in_range
+    end
+    it "calculates in_range as false when should" do
+      update_city_is_not_in_range
+    end
   end
 
   describe "update_cities" do
