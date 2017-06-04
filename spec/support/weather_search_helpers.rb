@@ -80,6 +80,14 @@ module WeatherSearchHelpers
     result = WeatherSearch.search_city city
     expect(result).to eq("results")
   end
+  def search_cities_calls_make_request
+    cities = [{"external_id" => 1},{"external_id" => 2}]
+    url = "#{WeatherSearch::BASE_URL}group?id=1,2#{WeatherSearch::APP_ID}"
+    allow(WeatherSearch).to receive(:make_request).and_return("results")
+    expect(WeatherSearch).to receive(:make_request).with(url, cities)
+    result = WeatherSearch.search_cities cities
+    expect(result).to eq("results")
+  end
 
 =begin
   def setup_get error=false

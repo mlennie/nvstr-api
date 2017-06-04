@@ -46,22 +46,5 @@ class WeatherSearch
     self.make_request url, cities
   end
 
-  def self.mock_single
-    city = { name: "Los Angeles", min: 70, max: 300, current: "",
-            in_range: false, external_id: 5368361 }
-    results = self.search_city city
-    binding.pry
-
-  end
-  def self.mock_multiple
-    city_one = { name: "Los Angeles", min: 70, max: 300, current: "",
-            in_range: false, external_id: 5368361 }
-    city_two = { name: "Vancouver", min: 70, max: 300, current: "",
-            in_range: false, external_id: 6173331 }
-    results = self.search_cities [city_one, city_two]
-    binding.pry
-
-  end
-
 end
 
