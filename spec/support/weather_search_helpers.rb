@@ -18,6 +18,14 @@ module WeatherSearchHelpers
   def update_city_is_not_in_range
     call_update_city false
   end
+  def update_cities_calls_update_city_for_each
+    search_results = {"list" => ["one","two"]}
+    cities = ["city_one", "city_two"]
+    allow(WeatherSearch).to receive(:update_city)
+    expect(WeatherSearch).to receive(:update_city).once.with("city_one","one")
+    expect(WeatherSearch).to receive(:update_city).once.with("city_two","two")
+    WeatherSearch.update_cities cities, search_results
+  end
 
 
 =begin

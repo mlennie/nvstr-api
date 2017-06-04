@@ -15,7 +15,9 @@ RSpec.describe WeatherSearch, type: :model do
   end
 
   describe "update_cities" do
-    it "calls update_city on each city"
+    it "calls update_city on each city" do
+      update_cities_calls_update_city_for_each
+    end
   end
 
   describe "make_request" do
