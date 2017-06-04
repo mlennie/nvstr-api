@@ -21,14 +21,24 @@ RSpec.describe WeatherSearch, type: :model do
   end
 
   describe "make_request" do
-    it "calls get with correct url"
-    it "returns error with correct message if results have message"
-    it "calls and returns update_cities with correct data when not single"
-    it "does not call update_cities with correct data when single"
-    it "calls and returns update_city with correct data if single"
-    it "does not call update_city with correct data if not single"
-    it "calls Rails.logger.fatal with correct message when exception"
-    it "returns correct error when exception"
+    it "calls get with correct url" do
+      make_request_calls_get
+    end
+    it "returns error with correct message if results have message" do
+      make_request_returns_error_when_result_message
+    end
+    it "calls and returns update_cities with correct data when not single" do
+      make_request_returns_update_cities_when_should
+    end
+    it "calls and returns update_city with correct data if single" do
+      make_request_returns_update_city_when_should
+    end
+    it "calls Rails.logger.fatal with correct message when exception" do
+      make_request_calls_logger
+    end
+    it "returns correct error when exception" do
+      make_request_returns_error_when_exception
+    end
   end
 
   describe "search_city" do

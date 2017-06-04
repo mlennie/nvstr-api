@@ -27,6 +27,51 @@ module WeatherSearchHelpers
     WeatherSearch.update_cities cities, search_results
   end
 
+  def make_request_calls_get
+    allow(WeatherSearch).to receive(:update_city)
+    allow(WeatherSearch).to receive(:get)
+    expect(WeatherSearch).to receive(:get).with("url")
+    WeatherSearch.make_request "url","city"
+  end
+  def make_request_returns_error_when_result_message
+    error_msg = "There was a problem fetching weather: "
+    allow(WeatherSearch).to receive(:update_city)
+    allow(WeatherSearch).to receive(:get).and_return({"message" => "error"})
+    result = WeatherSearch.make_request "url","city"
+    expect(result).to eq({error: error_msg + "error"})
+  end
+  def make_request_returns_update_cities_when_should
+    allow(WeatherSearch).to receive(:get).and_return({})
+    allow(WeatherSearch).to receive(:update_cities).and_return("expected_result")
+    expect(WeatherSearch).to receive(:update_cities)
+    expect(WeatherSearch).not_to receive(:update_city)
+    result = WeatherSearch.make_request "url","city", false
+    expect(result).to eq("expected_result")
+  end
+  def make_request_returns_update_city_when_should
+    allow(WeatherSearch).to receive(:get).and_return({})
+    allow(WeatherSearch).to receive(:update_city).and_return("expected_result")
+    expect(WeatherSearch).not_to receive(:update_cities)
+    expect(WeatherSearch).to receive(:update_city)
+    result = WeatherSearch.make_request "url","city", true
+    expect(result).to eq("expected_result")
+  end
+  def make_request_calls_logger
+    error_msg = "There was a problem fetching weather: "
+    allow(WeatherSearch).to receive(:get).and_return({})
+    allow(WeatherSearch).to receive(:update_city).and_return("expected_result")
+    allow(WeatherSearch).to receive(:update_cities).and_raise("error")
+    expect(Rails.logger).to receive(:fatal).with(error_msg + "error")
+    WeatherSearch.make_request "url","city"
+  end
+  def make_request_returns_error_when_exception
+    error_msg = "There was a problem fetching weather: error"
+    allow(WeatherSearch).to receive(:get).and_return({})
+    allow(WeatherSearch).to receive(:update_city).and_return("expected_result")
+    allow(WeatherSearch).to receive(:update_cities).and_raise("error")
+    result = WeatherSearch.make_request "url","city"
+    expect(result).to eq({error: error_msg})
+  end
 
 =begin
   def setup_get error=false
