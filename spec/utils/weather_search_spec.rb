@@ -42,8 +42,9 @@ RSpec.describe WeatherSearch, type: :model do
   end
 
   describe "search_city" do
-    it "formats city_name correctly"
-    it "calls and returns make_request with correct params"
+    it "formats city_name and calls and returns make_request with correct params" do
+      search_city_calls_make_request
+    end
   end
 
   describe "search_cities" do

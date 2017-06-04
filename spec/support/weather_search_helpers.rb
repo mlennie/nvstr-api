@@ -72,6 +72,14 @@ module WeatherSearchHelpers
     result = WeatherSearch.make_request "url","city"
     expect(result).to eq({error: error_msg})
   end
+  def search_city_calls_make_request
+    city = {name: " lOs AnGEles   "}
+    url = "#{WeatherSearch::BASE_URL}weather?q=los+angeles#{WeatherSearch::APP_ID}"
+    allow(WeatherSearch).to receive(:make_request).and_return("results")
+    expect(WeatherSearch).to receive(:make_request).with(url,city,"single")
+    result = WeatherSearch.search_city city
+    expect(result).to eq("results")
+  end
 
 =begin
   def setup_get error=false
